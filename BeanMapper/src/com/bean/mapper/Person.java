@@ -1,4 +1,4 @@
-package com.github.kvishalnie.beanmapper;
+package com.bean.mapper;
 
 public class Person {
 	public String firstName;

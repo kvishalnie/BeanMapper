@@ -1,4 +1,4 @@
-package com.github.kvishalnie.beanmapper;
+package com.bean.mapper;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
