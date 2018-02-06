@@ -5,6 +5,7 @@ public class Person {
 	public String lastname;
 	public Integer age;
 	public String company;
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -29,6 +30,7 @@ public class Person {
 	public void setCompany(String company) {
 		this.company = company;
 	}
+	
 	@Override
 	public String toString() {
 		return "Person [firstName=" + firstName + ", lastname=" + lastname
