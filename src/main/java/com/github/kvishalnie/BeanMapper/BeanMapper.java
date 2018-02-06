@@ -12,9 +12,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.springframework.jdbc.core.JdbcTemplate;
 
 
 public class BeanMapper {
@@ -170,6 +173,37 @@ static private <T> void writer(T s, BufferedWriter writer,String delimiter){
 	
 		}
 	
+}
+
+public static <T> void persistData(List<T> dbList,String table,JdbcTemplate jdbcTemplate ) {
+	//Long t1= System.currentTimeMillis();
+	List<String> sqlList= new ArrayList<String>();
+	dbList.stream().forEach(s->{
+		
+		StringBuilder sql=new StringBuilder("insert into "+table+" values ('");
+		Field[] fields = s.getClass().getDeclaredFields();
+		for(Field fd: fields){
+			try {
+				
+				sql.append(fd.get(s).toString().contains("'")?fd.get(s).toString().replaceAll("'", "''"):fd.get(s));
+				sql.append("','");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		sql.setLength(sql.length() - 2);
+		sql.append(")");
+		try{
+		jdbcTemplate.execute(sql.toString());
+		}catch(Exception e){
+			System.out.println(sql.toString());
+			e.printStackTrace();
+		}
+	});
+		
+	//System.out.println(jdbcTemplate.batchUpdate(sqlList.toArray(new String[sqlList.size()])));
+	//System.out.println(new Date(System.currentTimeMillis()-t1));
 }
 
 
